@@ -1,13 +1,11 @@
 import { Observable } from 'rxjs/Observable';
 import curry from 'lodash/fp/curry';
 
-const create = (baseUrl) => {
+const create = (baseUrl) => ({
+    get$: get$(baseUrl),
+});
 
-};
-
-const get$ = (path) => {
-    return apiFetch$(path, 'GET');
-};
+const get$ = curry((baseUrl, path) => apiFetch$(baseUrl + path, 'GET'));
 
 const apiFetch$ = (path, method = 'GET') => {
     const promise = apiFetch(path, method);
@@ -31,4 +29,4 @@ const apiFetch = (path, method = 'GET') => {
     });
 };
 
-export { get$ };
+export default create;
