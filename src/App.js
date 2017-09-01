@@ -5,18 +5,16 @@ import './App.css';
 
 import { store } from './configureStore';
 import {
-  InfoBar,
-  RefreshBar,
-  StatsTable,
-
-  loadCachedTickerStart,
-  loadCachedProfileInfoStart,
-} from './stats';
+  getRateCurrency,
+  loadRateStart,
+  loadTickerStart,
+} from './portfolio';
 
 class App extends Component {
   componentDidMount() {
-    store.dispatch(loadCachedTickerStart());
-    store.dispatch(loadCachedProfileInfoStart());
+    store.dispatch(loadTickerStart());
+    const targetCurrency = getRateCurrency(store.getState());
+    store.dispatch(loadRateStart(targetCurrency));
   }
 
   render() {
@@ -25,12 +23,11 @@ class App extends Component {
         <div className="App">
           <div className="App-header">
             <div className="App-content">
-              <InfoBar />
+              lol
             </div>
           </div>
           <div className="App-content">
-            <RefreshBar />
-            <StatsTable />
+            mao
           </div>
         </div>
       </Provider>
