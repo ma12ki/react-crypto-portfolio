@@ -21,7 +21,7 @@ const apiFetch = (path, method = 'GET') => {
         mode: 'cors',
         cache: 'no-store',
     };
-    return fetch(`${apiUrl}${path}`, config).then((response) => {
+    return fetch(`${path}`, config).then((response) => {
         if (response.ok) {
             return response.json();
         }

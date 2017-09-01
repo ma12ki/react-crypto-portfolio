@@ -36,5 +36,7 @@ export {
 
     getSelectedCryptos,
 
+    getCrypto,
+
     getCryptoAmounts,
 };

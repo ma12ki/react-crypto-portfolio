@@ -8,7 +8,7 @@ const storageKeys = {
 
 const http = httpFactory('https://api.coinmarketcap.com/v1/');
 
-const getTicker$ = () => http.get$('ticker');
+const getTicker$ = () => http.get$('ticker/');
 
 const storeTicker = (tickerData) => localStorage.setItem(storageKeys.ticker, tickerData);
 const retrieveTicker = () => localStorage.getItem(storageKeys.ticker);

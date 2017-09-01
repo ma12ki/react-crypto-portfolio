@@ -1,4 +1,4 @@
-import { Obervable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 
 import httpFactory from '../utils/httpFactory';
 import { baseCurrency } from '../config';
@@ -11,7 +11,7 @@ const http = httpFactory('https://api.fixer.io/');
 
 const getRate$ = (targetCurrency) => {
     if (targetCurrency === baseCurrency) {
-        return Obervable.of({ currency: baseCurrency, rate: 1 });
+        return Observable.of({ currency: baseCurrency, rate: 1 });
     }
     return http.get$(`latest?base=${baseCurrency}&symbols=${targetCurrency}`)
         .map((res) => ({ currency: targetCurrency, rate: res.rates[targetCurrency] }));
