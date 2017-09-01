@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import { reducer as statsReducer } from './stats';
+import { reducer as portfolioReducer } from './portfolio';
 
 export const rootReducer = combineReducers({
-    stats: statsReducer,
+    portfolio: portfolioReducer,
 });

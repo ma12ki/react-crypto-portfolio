@@ -1,7 +1,7 @@
 import { combineEpics } from 'redux-observable';
 
-import { epics as statsEpics } from './stats';
+import { epics as portfolioEpics } from './portfolio';
 
 export const rootEpic = combineEpics(
-    ...statsEpics,
+    ...portfolioEpics,
 );

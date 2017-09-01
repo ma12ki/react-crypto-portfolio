@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { Observable } from 'rxjs';
 
+import { baseCurrency } from '../config';
 import * as cryptoService from './crypto.service';
 import * as fiatService from './fiat.service';
 
@@ -83,7 +84,7 @@ const tickerReducer = combineReducers({
 });
 
 // rate
-const rateCurrencyReducer = (state = 'USD', action = {}) => {
+const rateCurrencyReducer = (state = baseCurrency, action = {}) => {
     switch (action.type) {
         case LOAD_RATE_SUCCESS: {
             return action.payload.currency;
