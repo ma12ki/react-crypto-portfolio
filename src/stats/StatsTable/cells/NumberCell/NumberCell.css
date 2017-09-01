@@ -1,0 +1,23 @@
+.NumberCell-positive {
+    color: #377e00;
+}
+
+.NumberCell-negative {
+    color: #af0000;
+}
+
+.NumberCell-neutral {
+    color: #2373b8;
+}
+
+.NumberCell-up {
+    background-color: #dfffdf;
+}
+
+.NumberCell-down {
+    background-color: #ffdfdf;
+}
+
+.NumberCell-noChange {
+    background-color: #dfedff;
+}
