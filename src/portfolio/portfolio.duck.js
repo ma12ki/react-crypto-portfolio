@@ -83,10 +83,21 @@ const tickerReducer = combineReducers({
 });
 
 // rate
-const rateValueReducer = (state = 0, action = {}) => {
+const rateCurrencyReducer = (state = 'USD', action = {}) => {
     switch (action.type) {
         case LOAD_RATE_SUCCESS: {
-            return action.payload;
+            return action.payload.currency;
+        }
+        default: {
+            return state;
+        }
+    }
+};
+
+const rateValueReducer = (state = 1, action = {}) => {
+    switch (action.type) {
+        case LOAD_RATE_SUCCESS: {
+            return action.payload.rate;
         }
         default: {
             return state;
@@ -124,6 +135,7 @@ const rateErrorReducer = (state = null, action = {}) => {
 };
 
 const rateReducer = combineReducers({
+    currency: rateCurrencyReducer,
     value: rateValueReducer,
     loading: rateLoadingReducer,
     error: rateErrorReducer,
