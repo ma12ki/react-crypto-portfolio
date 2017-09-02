@@ -4,6 +4,13 @@ import { Observable } from 'rxjs';
 import { baseCurrency } from '../config';
 import * as cryptoService from './crypto.service';
 import * as fiatService from './fiat.service';
+import combineData from './combine-data';
+import {
+    getTickerCurrencies,
+    getSelectedCryptos,
+    getCryptoAmounts,
+    getRateValue,
+} from './portfolio.selectors';
 
 //
 // Actions
@@ -24,6 +31,9 @@ const SET_CRYPTO_AMOUNT = `${namespace}SET_CRYPTO_AMOUNT`;
 const SELECT_CRYPTO = `${namespace}SELECT_CRYPTO`;
 const UNSELECT_CRYPTO = `${namespace}UNSELECT_CRYPTO`;
 
+const UPDATE_COMBINED_DATA_START = `${namespace}UPDATE_COMBINED_DATA_START`;
+const UPDATE_COMBINED_DATA_SUCCESS = `${namespace}UPDATE_COMBINED_DATA_SUCCESS`;
+
 //
 // Action creators
 //
@@ -40,6 +50,9 @@ const setCryptoAmount = (cryptoId, amount) => ({ type: SET_CRYPTO_AMOUNT, payloa
 
 const selectCrypto = (cryptoId) => ({ type: SELECT_CRYPTO, payload: cryptoId });
 const unselectCrypto = (cryptoId) => ({ type: UNSELECT_CRYPTO, payload: cryptoId });
+
+const updateCombinedDataStart = () => ({ type: UPDATE_COMBINED_DATA_START });
+const updateCombinedDataSuccess = (combinedData) => ({ type: UPDATE_COMBINED_DATA_SUCCESS, payload: combinedData });
 
 //
 // Reducers
@@ -183,11 +196,24 @@ const selectedCryptosReducer = (state = [], action = {}) => {
     }
 };
 
+// combined data (ticker + profileInfo)
+const combinedDataReducer = (state = {}, action = {}) => {
+    switch (action.type) {
+        case UPDATE_COMBINED_DATA_SUCCESS: {
+            return action.payload;
+        }
+        default: {
+            return state;
+        }
+    }
+};
+
 const reducer = combineReducers({
     ticker: tickerReducer,
     rate: rateReducer,
     cryptoAmounts: cryptoAmountsReducer,
     selectedCryptos: selectedCryptosReducer,
+    combined: combinedDataReducer,
 });
 
 //
@@ -215,9 +241,37 @@ const rateEpics = [
     loadRate$,
 ];
 
+// combined data (ticker + profileInfo)
+const combineDataStart$ = action$ =>
+action$.ofType(LOAD_TICKER_SUCCESS, LOAD_RATE_SUCCESS)
+    .map(updateCombinedDataStart);
+
+const combineData$ = (action$, store) =>
+action$.ofType(UPDATE_COMBINED_DATA_START)
+    .map(() => {
+        const state = store.getState();
+        const ticker = getTickerCurrencies(state);
+        const selectedCryptos = getSelectedCryptos(state);
+        const cryptoAmounts = getCryptoAmounts(state);
+        const fiatRate = getRateValue(state);
+
+        return combineData(selectedCryptos, cryptoAmounts, ticker, fiatRate);
+    })
+    .map(updateCombinedDataSuccess)
+    .catch((err) => {
+        console.error(err);
+        return Observable.of({ type: 'NOOP' });
+    });
+
+const combinedDataEpics = [
+    combineDataStart$,
+    combineData$,
+];
+
 const epics = [
     ...tickerEpics,
     ...rateEpics,
+    ...combinedDataEpics,
 ];
 
 export {

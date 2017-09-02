@@ -12,7 +12,7 @@ import {
 
 class App extends Component {
   componentDidMount() {
-    // store.dispatch(loadTickerStart());
+    store.dispatch(loadTickerStart());
     const targetCurrency = getRateCurrency(store.getState());
     store.dispatch(loadRateStart(targetCurrency));
   }
