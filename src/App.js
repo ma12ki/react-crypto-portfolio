@@ -9,7 +9,7 @@ import {
   loadRateStart,
   loadTickerStart,
 } from './portfolio';
-import { PortfolioTable } from './portfolio';
+import { PortfolioTable, CryptoSelector } from './portfolio';
 
 class App extends Component {
   componentDidMount() {
@@ -24,7 +24,7 @@ class App extends Component {
         <div className="App">
           <div className="App-header">
             <div className="App-content">
-              lol
+              <CryptoSelector />
             </div>
           </div>
           <div className="App-content">

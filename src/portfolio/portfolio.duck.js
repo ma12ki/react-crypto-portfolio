@@ -271,7 +271,7 @@ const selectedCryptosEpics = [
 
 // combined data (ticker + profileInfo)
 const combineDataStart$ = action$ =>
-    action$.ofType(LOAD_TICKER_SUCCESS, LOAD_RATE_SUCCESS, SET_CRYPTO_AMOUNT)
+    action$.ofType(LOAD_TICKER_SUCCESS, LOAD_RATE_SUCCESS, SET_CRYPTO_AMOUNT, SELECT_CRYPTO, UNSELECT_CRYPTO)
         .map(updateCombinedDataStart);
 
 const combineData$ = (action$, store) =>

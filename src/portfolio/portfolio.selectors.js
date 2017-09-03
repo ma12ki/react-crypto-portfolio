@@ -31,6 +31,13 @@ const getCombined = (state) => getPortfolio(state).combined || {};
 const getCombinedRows = (state) => getCombined(state).rows || [];
 const getCombinedSums = (state) => getCombined(state).sums || {};
 
+const getAvailableCurrencies = (state) => {
+    const currencies = getTickerCurrencies(state);
+    const selectedCryptos = getSelectedCryptos(state);
+
+    return currencies.filter((curr) => !(selectedCryptos.find((cryptoId) => curr.symbol === cryptoId)));
+};
+
 export {
     getPortfolio,
     
@@ -56,4 +63,6 @@ export {
     getCombined,
     getCombinedRows,
     getCombinedSums,
+
+    getAvailableCurrencies,
 };

@@ -4,3 +4,4 @@ export { retrieveTargetCurrency } from './fiat.service';
 export { getRateCurrency } from './portfolio.selectors';
 
 export * from './PortfolioTable';
+export * from './CryptoSelector';
