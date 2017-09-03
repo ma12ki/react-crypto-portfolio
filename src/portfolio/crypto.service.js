@@ -1,4 +1,5 @@
 import httpFactory from '../utils/httpFactory';
+import localStorageJSON from '../utils/localStorageJSON';
 
 const storageKeys = {
     ticker: 'TICKER',
@@ -17,18 +18,18 @@ const getTicker$ = () => http.get$('ticker/')
         return res;
     });
 
-const storeTicker = (tickerData) => localStorage.setItem(storageKeys.ticker, tickerData);
-const retrieveTicker = () => localStorage.getItem(storageKeys.ticker);
+const storeTicker = (tickerData) => localStorageJSON.setItem(storageKeys.ticker, tickerData);
+const retrieveTicker = () => localStorageJSON.getItem(storageKeys.ticker);
 
-const storeSelectedCryptos = (selectedCryptos) => localStorage.setItem(storageKeys.selectedCryptos, selectedCryptos);
-const retrieveSelectedCryptos = () => localStorage.getItem(storageKeys.selectedCryptos) || [
+const storeSelectedCryptos = (selectedCryptos) => localStorageJSON.setItem(storageKeys.selectedCryptos, selectedCryptos);
+const retrieveSelectedCryptos = () => localStorageJSON.getItem(storageKeys.selectedCryptos) || [
     'BTC',
     'ETH',
     'BCH',
 ];
 
-const storeCryptoAmounts = (cryptoAmounts) => localStorage.setItem(storageKeys.cryptoAmounts, cryptoAmounts);
-const retrieveCryptoAmounts = () => localStorage.getItem(storageKeys.cryptoAmounts) || {
+const storeCryptoAmounts = (cryptoAmounts) => localStorageJSON.setItem(storageKeys.cryptoAmounts, cryptoAmounts);
+const retrieveCryptoAmounts = () => localStorageJSON.getItem(storageKeys.cryptoAmounts) || {
     BTC: 3,
     ETH: 1.8,
     BCH: 2.6,

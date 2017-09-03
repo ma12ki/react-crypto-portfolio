@@ -46,7 +46,7 @@ const loadRateStart = (currency) => ({ type: LOAD_RATE_START, payload: currency 
 const loadRateSuccess = (currency, rate) => ({ type: LOAD_RATE_SUCCESS, payload: { currency, rate } });
 const loadRateError = (error) => ({ type: LOAD_RATE_ERROR, payload: error });
 
-const setCryptoAmount = (cryptoId, amount) => ({ type: SET_CRYPTO_AMOUNT, payload: { cryptoId, amount } });
+const setCryptoAmount = (cryptoId, amount) => ({ type: SET_CRYPTO_AMOUNT, payload: { cryptoId, amount: Number(amount) } });
 
 const selectCrypto = (cryptoId) => ({ type: SELECT_CRYPTO, payload: cryptoId });
 const unselectCrypto = (cryptoId) => ({ type: UNSELECT_CRYPTO, payload: cryptoId });
@@ -241,27 +241,55 @@ const rateEpics = [
     loadRate$,
 ];
 
+// crypto amounts
+const storeCryptoAmounts$ = (action$, store) =>
+    action$.ofType(SET_CRYPTO_AMOUNT)
+        .do(() => {
+            const state = store.getState();
+            const cryptoAmounts = getCryptoAmounts(state);
+            cryptoService.storeCryptoAmounts(cryptoAmounts);
+        })
+        .map(() => ({ type: 'NOOP' }));
+
+const cryptoAmountsEpics = [
+    storeCryptoAmounts$,
+];
+
+// selected cryptos
+const storeSelectedCryptos$ = (action$, store) =>
+    action$.ofType(SELECT_CRYPTO, UNSELECT_CRYPTO)
+        .do(() => {
+            const state = store.getState();
+            const selectedCryptos = getSelectedCryptos(state);
+            cryptoService.storeSelectedCryptos(selectedCryptos);
+        })
+        .map(() => ({ type: 'NOOP' }));
+
+const selectedCryptosEpics = [
+    storeSelectedCryptos$,
+];
+
 // combined data (ticker + profileInfo)
 const combineDataStart$ = action$ =>
-action$.ofType(LOAD_TICKER_SUCCESS, LOAD_RATE_SUCCESS)
-    .map(updateCombinedDataStart);
+    action$.ofType(LOAD_TICKER_SUCCESS, LOAD_RATE_SUCCESS, SET_CRYPTO_AMOUNT)
+        .map(updateCombinedDataStart);
 
 const combineData$ = (action$, store) =>
-action$.ofType(UPDATE_COMBINED_DATA_START)
-    .map(() => {
-        const state = store.getState();
-        const ticker = getTickerCurrencies(state);
-        const selectedCryptos = getSelectedCryptos(state);
-        const cryptoAmounts = getCryptoAmounts(state);
-        const fiatRate = getRateValue(state);
+    action$.ofType(UPDATE_COMBINED_DATA_START)
+        .map(() => {
+            const state = store.getState();
+            const ticker = getTickerCurrencies(state);
+            const selectedCryptos = getSelectedCryptos(state);
+            const cryptoAmounts = getCryptoAmounts(state);
+            const fiatRate = getRateValue(state);
 
-        return combineData(selectedCryptos, cryptoAmounts, ticker, fiatRate);
-    })
-    .map(updateCombinedDataSuccess)
-    .catch((err) => {
-        console.error(err);
-        return Observable.of({ type: 'NOOP' });
-    });
+            return combineData(selectedCryptos, cryptoAmounts, ticker, fiatRate);
+        })
+        .map(updateCombinedDataSuccess)
+        .catch((err) => {
+            console.error(err);
+            return Observable.of({ type: 'NOOP' });
+        });
 
 const combinedDataEpics = [
     combineDataStart$,
@@ -271,6 +299,8 @@ const combinedDataEpics = [
 const epics = [
     ...tickerEpics,
     ...rateEpics,
+    ...cryptoAmountsEpics,
+    ...selectedCryptosEpics,
     ...combinedDataEpics,
 ];
 

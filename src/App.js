@@ -9,6 +9,7 @@ import {
   loadRateStart,
   loadTickerStart,
 } from './portfolio';
+import { PortfolioTable } from './portfolio';
 
 class App extends Component {
   componentDidMount() {
@@ -27,7 +28,7 @@ class App extends Component {
             </div>
           </div>
           <div className="App-content">
-            mao
+            <PortfolioTable />
           </div>
         </div>
       </Provider>
