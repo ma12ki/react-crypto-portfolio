@@ -10,10 +10,6 @@ import { getAvailableCurrencies } from '../portfolio.selectors';
 class CryptoSelector extends React.PureComponent {
     state = { value: '' };
 
-    constructor(props) {
-        super(props);
-    }
-
     matchStateToTerm(item, value) {
         if (!value || value.length < 1) {
             return false;

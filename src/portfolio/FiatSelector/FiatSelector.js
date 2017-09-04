@@ -16,10 +16,6 @@ class FiatSelector extends React.PureComponent {
         this.setState({ dropdownOpen: !this.state.dropdownOpen });
     }
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { currency, select } = this.props;
         const { dropdownOpen } = this.state;
