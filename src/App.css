@@ -1,10 +1,6 @@
-.App {
-  /* text-align: center; */
-}
-
 .App-header {
   background-color: #222;
-  height: 60px;
+  height: 80px;
   color: white;
 }
 
@@ -12,4 +8,9 @@
   max-width: 1200px;
   padding: 20px;
   margin: 0 auto;
+}
+
+.App-content-header {
+  display: flex;
+  justify-content: space-between;
 }

@@ -23,13 +23,13 @@ class App extends Component {
       <Provider store={store}>
         <div className="App">
           <div className="App-header">
-            <div className="App-content">
+            <div className="App-content App-content-header">
               <CryptoSelector />
+              <FiatSelector />
             </div>
           </div>
           <div className="App-content">
             <PortfolioTable />
-            <FiatSelector />
           </div>
         </div>
       </Provider>
