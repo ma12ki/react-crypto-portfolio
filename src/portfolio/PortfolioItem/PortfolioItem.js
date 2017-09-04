@@ -3,18 +3,19 @@ import { connect } from 'react-redux';
 import { Input } from 'reactstrap';
 
 import { setCryptoAmount } from '../portfolio.duck';
+import { MultiCurrencyValue } from '../MultiCurrencyValue';
 
 const PortfolioItem = ({ name, symbol, price_usd, price_fiat, amountOwned, value_usd, value_fiat, setCryptoAmount }) => {
     return (
         <tr>
-            <td title={name}>{symbol}</td>
-            <td>{price_usd} {price_fiat}</td>
-            <td>x</td>
-            <td>
+            <td className='align-center' title={name}>{symbol}</td>
+            <td className='align-right'><MultiCurrencyValue baseValue={price_usd} targetValue={price_fiat} /></td>
+            <td className='align-center'>x</td>
+            <td className='align-center'>
                 <Input placeholder='0.0000' type='number' defaultValue={amountOwned} step='0.0001' min='0' onBlur={(e) => setCryptoAmount(symbol, e.target.value)} />
             </td>
-            <td>=</td>
-            <td>{value_usd} {value_fiat}</td>
+            <td className='align-center'>=</td>
+            <td className='align-right'><MultiCurrencyValue baseValue={value_usd} targetValue={value_fiat} /></td>
         </tr>
     );
 };

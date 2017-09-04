@@ -4,11 +4,13 @@ import { Table } from 'reactstrap';
 
 import { getCombinedRows, getCombinedSums } from '../portfolio.selectors';
 import { PortfolioItem } from '../PortfolioItem';
+import { MultiCurrencyValue } from '../MultiCurrencyValue';
+import './PortfolioTable.css';
 
 const PortfolioTable = ({ combinedRows, combinedSums }) => {
     const rows = combinedRows.map((row) => {
         return (
-            <PortfolioItem key={row.symbol}
+            <PortfolioItem key={row.symbol || Math.random()}
                 name={row.name}
                 symbol={row.symbol}
                 price_usd={row.price_usd}
@@ -20,15 +22,15 @@ const PortfolioTable = ({ combinedRows, combinedSums }) => {
     });
 
     return (
-        <Table>
+        <Table className='PortfolioTable'>
             <thead>
                 <tr>
-                    <th>Currency</th>
-                    <th>Price</th>
+                    <th className='align-center'>Currency</th>
+                    <th className='align-center'>Price</th>
                     <th></th>
-                    <th>Amount owned</th>
+                    <th className='align-center'>Amount owned</th>
                     <th></th>
-                    <th>Value</th>
+                    <th className='align-center'>Value</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,8 +38,8 @@ const PortfolioTable = ({ combinedRows, combinedSums }) => {
             </tbody>
             <tfoot>
                 <tr>
-                    <td colSpan={5}>&Sigma;</td>
-                    <td>{combinedSums.value_usd} {combinedSums.value_fiat}</td>
+                    <td className='align-right' colSpan={5}>&Sigma;</td>
+                    <td className='align-right'><MultiCurrencyValue baseValue={combinedSums.value_usd} targetValue={combinedSums.value_fiat} /></td>
                 </tr>
             </tfoot>
         </Table>

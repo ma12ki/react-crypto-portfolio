@@ -31,11 +31,8 @@ class CryptoSelector extends React.PureComponent {
             <Autocomplete
                 getItemValue={(item) => item.symbol}
                 items={currencies}
-                renderItem={(item, isHighlighted) =>
-                    <div style={{ background: isHighlighted ? 'lightgray' : 'white', color: 'black' }}>
-                        {item.symbol} - {item.name}
-                    </div>
-                }
+                renderItem={renderItem}
+                renderInput={renderInput}
                 shouldItemRender={this.matchStateToTerm}
                 value={value}
                 onChange={(e, value) => this.setState({ value })}
@@ -45,22 +42,16 @@ class CryptoSelector extends React.PureComponent {
     }
 }
 
-// const CryptoSelector = ({ currencies, select }) => {
-//     return (
-//         <Autocomplete
-//             getItemValue={(item) => item.symbol}
-//             items={currencies}
-//             renderItem={(item, isHighlighted) =>
-//                 <div style={{ background: isHighlighted ? 'lightgray' : 'white', color: 'black' }}>
-//                     {item.symbol} - {item.name}
-//                 </div>
-//             }
-//             //value={value}
-//             onChange={(e) => console.log(e.target.value)}
-//             onSelect={(val) => console.log(val)}
-//             />
-//         );
-// };
+const renderItem = (item, isHighlighted) =>
+    <div style={{ cursor: 'pointer', background: isHighlighted ? 'lightgray' : 'white', color: 'black' }}>
+        {item.symbol} - {item.name}
+    </div>;
+
+const renderInput = (props) => {
+    return (
+        <Input placeholder='Add cryptos...' {...props} />
+    );
+};
 
 const mapStateToProps = (state) => ({
     currencies: getAvailableCurrencies(state),

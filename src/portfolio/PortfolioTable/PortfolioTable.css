@@ -1,0 +1,7 @@
+.PortfolioTable {
+    border-collapse: collapse;
+}
+
+.PortfolioTable td {
+    vertical-align: middle;
+}

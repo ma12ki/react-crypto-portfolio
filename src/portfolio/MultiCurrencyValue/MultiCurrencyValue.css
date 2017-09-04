@@ -1,0 +1,12 @@
+.MultiCurrencyValue-target {
+    font-size: 1em;
+}
+
+.MultiCurrencyValue-base {
+    font-size: 0.6em;
+    color: gray;
+}
+
+.MultiCurrencyValue-currency {
+    color: lightgray;
+}
