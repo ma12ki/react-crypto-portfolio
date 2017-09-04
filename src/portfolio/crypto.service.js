@@ -22,18 +22,10 @@ const storeTicker = (tickerData) => localStorageJSON.setItem(storageKeys.ticker,
 const retrieveTicker = () => localStorageJSON.getItem(storageKeys.ticker);
 
 const storeSelectedCryptos = (selectedCryptos) => localStorageJSON.setItem(storageKeys.selectedCryptos, selectedCryptos);
-const retrieveSelectedCryptos = () => localStorageJSON.getItem(storageKeys.selectedCryptos) || [
-    'BTC',
-    'ETH',
-    'BCH',
-];
+const retrieveSelectedCryptos = () => localStorageJSON.getItem(storageKeys.selectedCryptos) || [];
 
 const storeCryptoAmounts = (cryptoAmounts) => localStorageJSON.setItem(storageKeys.cryptoAmounts, cryptoAmounts);
-const retrieveCryptoAmounts = () => localStorageJSON.getItem(storageKeys.cryptoAmounts) || {
-    BTC: 3,
-    ETH: 1.8,
-    BCH: 2.6,
-};
+const retrieveCryptoAmounts = () => localStorageJSON.getItem(storageKeys.cryptoAmounts) || {};
 
 export {
     getTicker$,
