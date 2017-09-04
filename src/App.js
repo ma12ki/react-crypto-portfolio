@@ -9,7 +9,7 @@ import {
   loadRateStart,
   loadTickerStart,
 } from './portfolio';
-import { PortfolioTable, CryptoSelector } from './portfolio';
+import { PortfolioTable, CryptoSelector, FiatSelector } from './portfolio';
 
 class App extends Component {
   componentDidMount() {
@@ -29,6 +29,7 @@ class App extends Component {
           </div>
           <div className="App-content">
             <PortfolioTable />
+            <FiatSelector />
           </div>
         </div>
       </Provider>

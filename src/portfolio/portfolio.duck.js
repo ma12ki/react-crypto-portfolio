@@ -10,6 +10,7 @@ import {
     getSelectedCryptos,
     getCryptoAmounts,
     getRateValue,
+    getRateCurrency,
 } from './portfolio.selectors';
 
 //
@@ -53,6 +54,8 @@ const unselectCrypto = (cryptoId) => ({ type: UNSELECT_CRYPTO, payload: cryptoId
 
 const updateCombinedDataStart = () => ({ type: UPDATE_COMBINED_DATA_START });
 const updateCombinedDataSuccess = (combinedData) => ({ type: UPDATE_COMBINED_DATA_SUCCESS, payload: combinedData });
+
+const noop = () => ({ type: 'NOOP' });
 
 //
 // Reducers
@@ -230,15 +233,30 @@ const tickerEpics = [
     loadTicker$,
 ];
 
-// rate
+// rate (target currency)
+const refreshRate$ = action$ =>
+    action$.ofType(SET_RATE_CURRENCY)
+        .map(({ payload }) => loadRateStart(payload));
+
 const loadRate$ = action$ =>
     action$.ofType(LOAD_RATE_START)
         .switchMap(({ payload }) => fiatService.getRate$(payload))
             .map(({ currency, rate }) => loadRateSuccess(currency, rate))
             .catch((err) => Observable.of(loadRateError(err)));
 
+const storeTargetCurrency$ = (action$, store) =>
+    action$.ofType(SET_RATE_CURRENCY)
+        .do(() => {
+            const state = store.getState();
+            const currency = getRateCurrency(state);
+            fiatService.storeTargetCurrency(currency);
+        })
+        .map(noop);
+
 const rateEpics = [
+    refreshRate$,
     loadRate$,
+    storeTargetCurrency$,
 ];
 
 // crypto amounts
@@ -249,7 +267,7 @@ const storeCryptoAmounts$ = (action$, store) =>
             const cryptoAmounts = getCryptoAmounts(state);
             cryptoService.storeCryptoAmounts(cryptoAmounts);
         })
-        .map(() => ({ type: 'NOOP' }));
+        .map(noop);
 
 const cryptoAmountsEpics = [
     storeCryptoAmounts$,
@@ -263,7 +281,7 @@ const storeSelectedCryptos$ = (action$, store) =>
             const selectedCryptos = getSelectedCryptos(state);
             cryptoService.storeSelectedCryptos(selectedCryptos);
         })
-        .map(() => ({ type: 'NOOP' }));
+        .map(noop);
 
 const selectedCryptosEpics = [
     storeSelectedCryptos$,
@@ -288,7 +306,7 @@ const combineData$ = (action$, store) =>
         .map(updateCombinedDataSuccess)
         .catch((err) => {
             console.error(err);
-            return Observable.of({ type: 'NOOP' });
+            return Observable.of(noop());
         });
 
 const combinedDataEpics = [
