@@ -1,0 +1,8 @@
+.RemoveCrypto {
+    border: none;
+    cursor: pointer;
+}
+
+.RemoveCrypto:hover {
+    background-color: lightcoral;
+}

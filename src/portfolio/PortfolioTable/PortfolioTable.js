@@ -31,6 +31,7 @@ const PortfolioTable = ({ combinedRows, combinedSums }) => {
                     <th className='align-center'>Amount owned</th>
                     <th></th>
                     <th className='align-center'>Value</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -40,6 +41,7 @@ const PortfolioTable = ({ combinedRows, combinedSums }) => {
                 <tr>
                     <td className='align-right' colSpan={5}>&Sigma;</td>
                     <td className='align-right'><MultiCurrencyValue baseValue={combinedSums.value_usd} targetValue={combinedSums.value_fiat} /></td>
+                    <td></td>
                 </tr>
             </tfoot>
         </Table>

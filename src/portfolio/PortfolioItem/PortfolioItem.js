@@ -4,6 +4,7 @@ import { Input } from 'reactstrap';
 
 import { setCryptoAmount } from '../portfolio.duck';
 import { MultiCurrencyValue } from '../MultiCurrencyValue';
+import { RemoveCrypto } from '../RemoveCrypto';
 
 const PortfolioItem = ({ name, symbol, price_usd, price_fiat, amountOwned, value_usd, value_fiat, setCryptoAmount }) => {
     return (
@@ -16,6 +17,9 @@ const PortfolioItem = ({ name, symbol, price_usd, price_fiat, amountOwned, value
             </td>
             <td className='align-center'>=</td>
             <td className='align-right'><MultiCurrencyValue baseValue={value_usd} targetValue={value_fiat} /></td>
+            <td className='align-center'>
+                <RemoveCrypto cryptoId={symbol} />
+            </td>
         </tr>
     );
 };
